@@ -30,14 +30,14 @@ const ConfirmDialog = () => {
             onClick={confirmDialog?.onCancel}
             variant="outline"
           >
-            {confirmDialog?.cancelText ?? 'Cancel'}
+            {confirmDialog?.cancelText ?? 'Batal'}
           </AlertDialogCancel>
           {!!confirmDialog?.onConfirm && (
             <AlertDialogAction
               onClick={confirmDialog.onConfirm}
               variant={confirmDialog?.confirmVariant ?? 'default'}
             >
-              {confirmDialog?.confirmText ?? 'Yes'}
+              {confirmDialog?.confirmText ?? 'Ya'}
             </AlertDialogAction>
           )}
         </AlertDialogFooter>
