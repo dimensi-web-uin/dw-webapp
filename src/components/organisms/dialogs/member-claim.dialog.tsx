@@ -80,7 +80,7 @@ const MemberClaimDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
 
           {member ? (
             <>
-              <Item variant={'outline'}>
+              <Item variant={'card'}>
                 <ItemMedia>
                   <Avatar className="size-10 *:rounded-lg">
                     <AvatarImage src={member.avatar_url ?? ''} />

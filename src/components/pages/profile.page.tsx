@@ -108,7 +108,7 @@ const ProfilePage = () => {
       <Section className="gap-3">
         <h4 className="typo-heading-sm">Akun</h4>
 
-        <Item variant="outline">
+        <Item variant="card">
           <ItemMedia>
             <Avatar className="*:rounded-md">
               <AvatarImage src={profile?.avatarUrl} />
@@ -120,7 +120,7 @@ const ProfilePage = () => {
             <ItemDescription>{profile?.email}</ItemDescription>
           </ItemContent>
         </Item>
-        <Item variant="outline" className="text-destructive" asChild>
+        <Item variant="card" className="text-destructive" asChild>
           <a href="#" onClick={signOut}>
             <ItemMedia>
               <LogOutIcon className="size-5" />

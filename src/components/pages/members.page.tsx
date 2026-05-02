@@ -195,7 +195,7 @@ const MembersPage = () => {
           {members.isLoading && <LoadingOverlay />}
 
           {members.data?.map((item, i) => (
-            <Item key={i} variant={'outline'}>
+            <Item key={i} variant={'card'}>
               <ItemMedia>
                 <Avatar className="size-10 *:rounded-lg">
                   <AvatarImage src={item.avatar_url ?? ''} />
@@ -207,12 +207,12 @@ const MembersPage = () => {
                 <ItemDescription>{item.role}</ItemDescription>
               </ItemContent>
               <ItemActions>
-                {item.is_active ? (
-                  <Badge>Aktif</Badge>
-                ) : (
-                  <Badge variant={'destructive'}>Inaktif</Badge>
-                )}
                 <Protected isStaff protect="null">
+                  {item.is_active ? (
+                    <Badge>Aktif</Badge>
+                  ) : (
+                    <Badge variant={'destructive'}>Inaktif</Badge>
+                  )}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button size={'icon-sm'} variant={'ghost'}>
