@@ -23,7 +23,7 @@ const Protected = ({
       .eq('user_id', user?.id ?? '')
       .maybeSingle(),
     {
-      enabled: isStaff,
+      enabled: isStaff && !!user?.id,
     }
   );
 
