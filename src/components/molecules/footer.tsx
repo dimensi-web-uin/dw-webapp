@@ -19,11 +19,11 @@ const Footer = ({ className, ...props }: ComponentProps<'footer'>) => {
               <Button
                 key={i}
                 variant={'link'}
-                className="text-muted-foreground"
+                className="text-muted-foreground h-fit"
                 asChild
               >
                 <a href={item.href} target="_blank">
-                  <item.icon /> {item.label}
+                  <item.icon /> <span className="text-wrap">{item.label}</span>
                 </a>
               </Button>
             ))}
@@ -46,7 +46,7 @@ const Footer = ({ className, ...props }: ComponentProps<'footer'>) => {
         </div>
         <Separator />
         <div className="flex flex-col items-center justify-between gap-5 md:flex-row">
-          <p className="typo-body text-muted-foreground whitespace-nowrap">
+          <p className="typo-body text-muted-foreground whitespace">
             {CompanyData.copyright}
           </p>
         </div>
