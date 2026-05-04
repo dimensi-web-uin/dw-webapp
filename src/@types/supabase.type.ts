@@ -243,6 +243,26 @@ export type Database = {
         };
       };
       is_staff: { Args: never; Returns: boolean };
+      update_member_avatar: {
+        Args: { p_avatar_url?: string };
+        Returns: {
+          avatar_url: string | null;
+          created_at: string | null;
+          generation: string;
+          id: string;
+          is_active: boolean;
+          name: string;
+          role: string;
+          updated_at: string | null;
+          user_id: string | null;
+        };
+        SetofOptions: {
+          from: '*';
+          to: 'members';
+          isOneToOne: true;
+          isSetofReturn: false;
+        };
+      };
     };
     Enums: {
       [_ in never]: never;

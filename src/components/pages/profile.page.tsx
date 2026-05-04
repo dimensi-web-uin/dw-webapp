@@ -1,4 +1,4 @@
-import { Edit2Icon, LogOutIcon } from 'lucide-react';
+import { LogOutIcon } from 'lucide-react';
 import {
   Item,
   ItemContent,
@@ -28,6 +28,7 @@ import GenerationTabs from '../molecules/generation-tabs';
 import type { Generation } from '@/data/options/generations.option';
 import MemberClaimDialog from '../organisms/dialogs/member-claim.dialog';
 import dialogStore from '@/stores/dialog.store';
+import { MemberAvatar } from '../organisms/member-avatar';
 
 const ProfilePage = () => {
   const { openDialog } = dialogStore();
@@ -62,20 +63,10 @@ const ProfilePage = () => {
         {member.data ? (
           <Card>
             <CardContent className="flex flex-wrap items-center gap-6">
-              <div className="relative size-24">
-                <Avatar className="size-full *:rounded-lg">
-                  <AvatarImage src={member.data.avatar_url ?? ''} />
-                  <AvatarFallback>
-                    {getInitial(member.data.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <Button
-                  size={'icon-sm'}
-                  className="absolute -right-2 -bottom-2"
-                >
-                  <Edit2Icon />
-                </Button>
-              </div>
+              <MemberAvatar
+                item={member.data}
+                onChange={() => member.refetch()}
+              />
               <div className="grow">
                 <h4 className="typo-heading-sm">{member.data.name}</h4>
                 <p className="typo-body-md text-muted-foreground">
