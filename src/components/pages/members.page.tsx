@@ -37,7 +37,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '../atoms/dropdown-menu';
-import SearchInput from '../molecules/search-input';
 import dialogStore from '@/stores/dialog.store';
 import MemberCreateDialog from '../organisms/dialogs/member-create.dialog';
 import MemberUpdateDialog from '../organisms/dialogs/member-update.dialog';
@@ -52,13 +51,11 @@ const MembersPage = () => {
   const [generation, setGeneration] = useState<Generation>(
     now().format('YYYY') as Generation
   );
-  const [search, setSearch] = useState('');
 
   const query = supabase
     .from('members')
     .select('*, member_claims(code, exp)')
     .eq('generation', generation);
-  if (search.trim()) query.ilike('name', `%${search.trim()}%`);
 
   const members = useQuery(query.order('created_at')),
     deleteMember = useDeleteMutation(supabase.from('members'), ['id'], 'id'),
@@ -142,13 +139,10 @@ const MembersPage = () => {
 
       <Section className="gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="typo-heading-lg">Anggota</h2>
-          <GenerationTabs value={generation} onValueChange={setGeneration} />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <SearchInput onEnter={setSearch} />
-
+          <div>
+            <h2 className="typo-heading-lg">Anggota</h2>
+            <GenerationTabs value={generation} onValueChange={setGeneration} />
+          </div>
           <Protected isStaff protect="null">
             <ButtonGroup>
               <Button
@@ -182,7 +176,7 @@ const MembersPage = () => {
           </Protected>
         </div>
 
-        <div className="relative mt-3 grid min-h-16 grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-12">
+        <div className="relative mt-6 grid min-h-16 grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-12">
           {members.isLoading && <LoadingOverlay />}
 
           {members.data?.map((item, i) => (
