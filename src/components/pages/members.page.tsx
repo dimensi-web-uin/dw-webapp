@@ -9,14 +9,6 @@ import {
   useUpdateMutation,
   useUpsertMutation,
 } from '@supabase-cache-helpers/postgrest-react-query';
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemMedia,
-  ItemTitle,
-} from '../atoms/item';
 import { Avatar, AvatarFallback, AvatarImage } from '../atoms/avatar';
 import { getInitial, getRandomString } from '@/utils/string';
 import {
@@ -25,7 +17,6 @@ import {
   CopyIcon,
   Edit2Icon,
   MoreHorizontalIcon,
-  MoreVerticalIcon,
   TicketMinusIcon,
   Trash2Icon,
   UnlinkIcon,
@@ -49,12 +40,12 @@ import {
 import SearchInput from '../molecules/search-input';
 import dialogStore from '@/stores/dialog.store';
 import MemberCreateDialog from '../organisms/dialogs/member-create.dialog';
-import { Badge } from '../atoms/badge';
 import MemberUpdateDialog from '../organisms/dialogs/member-update.dialog';
 import { toast } from 'sonner';
 import type { Generation } from '@/data/options/generations.option';
 import { LoadingOverlay } from '../atoms/loading';
 import { copyText } from '@/utils/misc';
+import { AspectRatio } from '../atoms/aspect-ratio';
 
 const MembersPage = () => {
   const { openDialog, openConfirmDialog } = dialogStore();
@@ -191,32 +182,34 @@ const MembersPage = () => {
           </Protected>
         </div>
 
-        <div className="relative mt-3 grid min-h-16 gap-3 sm:grid-cols-2">
+        <div className="relative mt-3 grid min-h-16 grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-12">
           {members.isLoading && <LoadingOverlay />}
 
           {members.data?.map((item, i) => (
-            <Item key={i} variant={'card'}>
-              <ItemMedia>
-                <Avatar className="size-10 *:rounded-lg">
-                  <AvatarImage src={item.avatar_url ?? ''} />
-                  <AvatarFallback>{getInitial(item.name)}</AvatarFallback>
-                </Avatar>
-              </ItemMedia>
-              <ItemContent>
-                <ItemTitle className="items-center">{item.name}</ItemTitle>
-                <ItemDescription>{item.role}</ItemDescription>
-              </ItemContent>
-              <ItemActions>
+            <div key={i} className="group flex flex-col items-center">
+              <div className="mb-3 w-3/4 transition-transform group-hover:scale-110 group-hover:rotate-6 group-hover:drop-shadow-xl">
+                <AspectRatio ratio={1 / 1}>
+                  <Avatar className="border-primary h-full w-full border-4">
+                    <AvatarImage src={item.avatar_url ?? ''} />
+                    <AvatarFallback>{getInitial(item.name)}</AvatarFallback>
+                  </Avatar>
+                </AspectRatio>
+              </div>
+              <p className="typo-body-lg line-clamp-2 text-center">
+                {item.name}
+              </p>
+              <p className="typo-caption text-muted-foreground mb-1 line-clamp-1 text-center">
+                {item.role}
+              </p>
+              <ButtonGroup>
+                <Button size={'sm'} variant={'secondary'}>
+                  Lihat
+                </Button>
                 <Protected isStaff protect="null">
-                  {item.is_active ? (
-                    <Badge>Aktif</Badge>
-                  ) : (
-                    <Badge variant={'destructive'}>Inaktif</Badge>
-                  )}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button size={'icon-sm'} variant={'ghost'}>
-                        <MoreVerticalIcon />
+                      <Button size={'icon-sm'} variant={'secondary'}>
+                        <MoreHorizontalIcon />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -278,8 +271,8 @@ const MembersPage = () => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </Protected>
-              </ItemActions>
-            </Item>
+              </ButtonGroup>
+            </div>
           ))}
         </div>
       </Section>
