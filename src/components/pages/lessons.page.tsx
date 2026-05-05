@@ -31,6 +31,14 @@ import { Edit2Icon, MoreHorizontalIcon, Trash2Icon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LessonUpdateDialog from '../organisms/dialogs/lesson-update.dialog';
 import { TruncatedText } from '../molecules/truncated-text';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '../atoms/breadcrumb';
 
 const LessonsPage = () => {
   const { openDialog, openConfirmDialog } = dialogStore();
@@ -61,8 +69,20 @@ const LessonsPage = () => {
       <LessonCreateDialog />
       <LessonUpdateDialog />
 
-      <Section className="gap-3">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <Section>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Beranda</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Belajar</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="typo-heading-lg">Kurikulum Pembelajaran</h2>
             <p className="text-muted-foreground typo-body-md">

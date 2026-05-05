@@ -64,7 +64,9 @@ export type Database = {
       };
       lesson_items: {
         Row: {
-          author_id: string;
+          author_id: string | null;
+          author_name: string | null;
+          author_role: string | null;
           cover_url: string | null;
           created_at: string | null;
           description: string | null;
@@ -79,7 +81,9 @@ export type Database = {
           updated_at: string | null;
         };
         Insert: {
-          author_id: string;
+          author_id?: string | null;
+          author_name?: string | null;
+          author_role?: string | null;
           cover_url?: string | null;
           created_at?: string | null;
           description?: string | null;
@@ -94,7 +98,9 @@ export type Database = {
           updated_at?: string | null;
         };
         Update: {
-          author_id?: string;
+          author_id?: string | null;
+          author_name?: string | null;
+          author_role?: string | null;
           cover_url?: string | null;
           created_at?: string | null;
           description?: string | null;

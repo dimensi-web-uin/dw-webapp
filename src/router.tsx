@@ -8,6 +8,7 @@ import ProfilePage from './components/pages/profile.page';
 import Protected from './components/molecules/protected';
 import MembersPage from './components/pages/members.page';
 import LessonsPage from './components/pages/lessons.page';
+import LessonPage from './components/pages/lesson.page';
 
 const routes: RouteObject[] = [
   {
@@ -25,6 +26,10 @@ const routes: RouteObject[] = [
       {
         path: 'lessons',
         element: <LessonsPage />,
+      },
+      {
+        path: 'lessons/:id',
+        element: <LessonPage />,
       },
       {
         path: 'profil',
