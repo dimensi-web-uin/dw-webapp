@@ -5,6 +5,8 @@ export const DIALOGS = {
   member_create: { id: 'dialog_member_create' },
   member_update: { id: 'dialog_member_update' },
   member_claim: { id: 'dialog_member_claim' },
+  lesson_create: { id: 'dialog_lesson_create' },
+  lesson_update: { id: 'dialog_lesson_update' },
 } as const;
 
 export type DialogId = keyof typeof DIALOGS;
@@ -13,6 +15,8 @@ type DialogMetaMap = {
   member_create: { generation: Generation };
   member_update: { id: string };
   member_claim: undefined;
+  lesson_create: undefined;
+  lesson_update: { id: string };
 };
 
 type DialogData<T extends DialogId = DialogId> =

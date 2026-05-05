@@ -7,6 +7,7 @@ import LoginPage from './components/pages/login.page';
 import ProfilePage from './components/pages/profile.page';
 import Protected from './components/molecules/protected';
 import MembersPage from './components/pages/members.page';
+import LessonsPage from './components/pages/lessons.page';
 
 const routes: RouteObject[] = [
   {
@@ -20,6 +21,10 @@ const routes: RouteObject[] = [
       {
         path: 'members',
         element: <MembersPage />,
+      },
+      {
+        path: 'lessons',
+        element: <LessonsPage />,
       },
       {
         path: 'profil',
