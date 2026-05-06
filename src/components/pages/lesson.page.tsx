@@ -16,6 +16,7 @@ import {
   ItemActions,
   ItemContent,
   ItemDescription,
+  ItemMedia,
   ItemTitle,
 } from '../atoms/item';
 import {
@@ -46,6 +47,8 @@ import {
   BreadcrumbSeparator,
 } from '../atoms/breadcrumb';
 import { Badge } from '../atoms/badge';
+import { LogoIcon } from '@/data/options/logo-icons.option';
+import { getOption } from '@/utils/option';
 
 const LessonPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -128,9 +131,18 @@ const LessonPage = () => {
         <div className="mt-6 flex flex-col gap-3">
           {lessonItems.data?.map((item, i) => (
             <Item key={i} variant={'card'}>
+              <ItemMedia>
+                <img
+                  src={
+                    getOption(LogoIcon, item.icon as LogoIcon | undefined)?.meta
+                      ?.logo
+                  }
+                  className="size-10"
+                />
+              </ItemMedia>
               <ItemContent>
                 <ItemTitle>{item.title}</ItemTitle>
-                <ItemDescription>
+                <ItemDescription className="line-clamp-none">
                   <TruncatedText maxLength={230} hideButton>
                     {item.description ?? ''}
                   </TruncatedText>
