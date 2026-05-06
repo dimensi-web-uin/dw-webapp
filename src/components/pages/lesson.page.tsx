@@ -48,6 +48,7 @@ import {
 import { Badge } from '../atoms/badge';
 import { LogoIcon } from '@/data/options/logo-icons.option';
 import { getOption } from '@/utils/option';
+import LessonItemUpdateDialog from '../organisms/dialogs/lessonitem-update.dialog';
 
 const LessonPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -87,6 +88,7 @@ const LessonPage = () => {
 
   return (
     <>
+      <LessonItemUpdateDialog />
       <LessonItemCreateDialog />
 
       {(lesson.isLoading || lessonItems.isLoading) && <LoadingOverlay />}
@@ -168,7 +170,11 @@ const LessonPage = () => {
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              openDialog('lessonitem_update', { id: item.id })
+                            }
+                          >
                             <Edit2Icon /> Edit
                           </DropdownMenuItem>
                           <DropdownMenuItem
