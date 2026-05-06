@@ -8,7 +8,9 @@ export const DIALOGS = {
   lesson_create: { id: 'dialog_lesson_create' },
   lesson_update: { id: 'dialog_lesson_update' },
   lessonitem_create: { id: 'dialog_lessonitem_create' },
-  lessonitem_update: { id: 'dialog_lesson_update' },
+  lessonitem_update: { id: 'dialog_lessonitem_update' },
+  lessonitemparticipant_create: { id: 'dialog_lessonitemparticipant_create' },
+  lessonitemparticipant_update: { id: 'dialog_lessonitemparticipant_update' },
 } as const;
 
 export type DialogId = keyof typeof DIALOGS;
@@ -21,6 +23,11 @@ type DialogMetaMap = {
   lesson_update: { id: string };
   lessonitem_create: { lesson_id: string; order: number };
   lessonitem_update: { id: string };
+  lessonitemparticipant_create: {
+    lesson_item_id: string;
+    generation: Generation;
+  };
+  lessonitemparticipant_update: { id: string };
 };
 
 type DialogData<T extends DialogId = DialogId> =

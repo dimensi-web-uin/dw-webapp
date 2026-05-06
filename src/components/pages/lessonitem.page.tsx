@@ -8,10 +8,20 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '../atoms/breadcrumb';
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query';
+import {
+  useDeleteMutation,
+  useQuery,
+} from '@supabase-cache-helpers/postgrest-react-query';
 import { supabase } from '@/lib/supabase';
-import { Item, ItemContent, ItemDescription, ItemTitle } from '../atoms/item';
-import { formatTime } from '@/utils/date';
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from '../atoms/item';
+import { formatTime, now } from '@/utils/date';
 import {
   Card,
   CardAction,
@@ -22,10 +32,38 @@ import {
 import { getOption } from '@/utils/option';
 import { LogoIcon } from '@/data/options/logo-icons.option';
 import LessonItemsNavigation from '../molecules/lessonitems-navigation';
+import GenerationTabs from '../molecules/generation-tabs';
+import type { Generation } from '@/data/options/generations.option';
+import { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '../atoms/avatar';
+import { getInitial } from '@/utils/string';
+import Protected from '../molecules/protected';
+import { Button } from '../atoms/button';
+import {
+  Edit2Icon,
+  MoreHorizontalIcon,
+  PlusIcon,
+  Trash2Icon,
+} from 'lucide-react';
+import LessonItemParticipantCreateDialog from '../organisms/dialogs/lessonitemparticipant-create.dialog';
+import dialogStore from '@/stores/dialog.store';
+import { LoadingOverlay } from '../atoms/loading';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../atoms/dropdown-menu';
+import { toast } from 'sonner';
 
 const LessonItemPage = () => {
   const nav = useNavigate();
   const { lesson_id, id } = useParams<{ lesson_id: string; id: string }>();
+  const { openDialog, openConfirmDialog } = dialogStore();
+  const [generation, setGeneration] = useState<Generation>(
+    now().format('YYYY') as Generation
+  );
 
   const lessonItem = useQuery(
       supabase
@@ -43,10 +81,51 @@ const LessonItemPage = () => {
       {
         enabled: !!lesson_id,
       }
+    ),
+    lessonItemParticipants = useQuery(
+      supabase
+        .from('lesson_item_participants')
+        .select(
+          'id, activity_count, feedback, quiz_points, members!inner(id, name, avatar_url, role)'
+        )
+        .eq('members.generation', generation)
+        .eq('lesson_item_id', id!)
+    ),
+    deleteLessonItemParticipant = useDeleteMutation(
+      supabase.from('lesson_item_participants'),
+      ['id'],
+      'id'
     );
+
+  const _deleteLessonItemParticipant = (
+    item: NonNullable<typeof lessonItemParticipants.data>[number]
+  ) => {
+    openConfirmDialog({
+      title: `Hapus "${item.members.name}"?`,
+      description: '',
+      confirmVariant: 'destructive',
+      onConfirm() {
+        toast.promise(
+          deleteLessonItemParticipant.mutateAsync({ id: item.id! }),
+          {
+            loading: 'Menghapus partisipan...',
+            success: 'Partisipan dihapus',
+          }
+        );
+      },
+    });
+  };
 
   return (
     <>
+      {(lessonItem.isLoading ||
+        lessonItems.isLoading ||
+        lessonItemParticipants.isLoading) && <LoadingOverlay />}
+
+      <LessonItemParticipantCreateDialog
+        onSuccess={() => lessonItemParticipants.refetch()}
+      />
+
       <Section>
         <Breadcrumb>
           <BreadcrumbList>
@@ -191,6 +270,76 @@ const LessonItemPage = () => {
               </ItemContent>
             </Item>
           </div>
+        </div>
+      </Section>
+
+      <Section>
+        <h2 className="typo-heading-lg">Partisipan</h2>
+        <GenerationTabs value={generation} onValueChange={setGeneration} />
+
+        <div className="mt-6 flex flex-col gap-3">
+          {lessonItemParticipants.data?.map((item, i) => (
+            <Item key={i} variant={'card'}>
+              <ItemMedia>
+                <Avatar className="size-12">
+                  <AvatarImage src={item.members.avatar_url ?? ''} />
+                  <AvatarFallback>
+                    {getInitial(item.members.name)}
+                  </AvatarFallback>
+                </Avatar>
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle>{item.members.name}</ItemTitle>
+                <ItemDescription>{item.members.role}</ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Protected isStaff protect="null">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size={'icon-sm'}>
+                        <MoreHorizontalIcon />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="min-w-40">
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem
+                          onClick={() =>
+                            openDialog('lessonitemparticipant_update', {
+                              id: item.id,
+                            })
+                          }
+                        >
+                          <Edit2Icon /> Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          variant="destructive"
+                          onClick={() => _deleteLessonItemParticipant(item)}
+                        >
+                          <Trash2Icon /> Hapus
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </Protected>
+              </ItemActions>
+            </Item>
+          ))}
+
+          <Protected isStaff protect="null">
+            <div>
+              <Button
+                variant={'secondary'}
+                onClick={() =>
+                  openDialog('lessonitemparticipant_create', {
+                    lesson_item_id: id!,
+                    generation: generation,
+                  })
+                }
+              >
+                <PlusIcon /> Tambah partisipan
+              </Button>
+            </div>
+          </Protected>
         </div>
       </Section>
 
