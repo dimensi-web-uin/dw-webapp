@@ -12,7 +12,7 @@ const Footer = ({ className, ...props }: ComponentProps<'footer'>) => {
     <footer className={cn('border-t', className)} {...props}>
       <Section className="flex flex-col gap-6 py-6">
         <div className="flex w-full flex-wrap gap-12 md:gap-16 xl:gap-24">
-          <div className="flex grow flex-col items-start" id="contacts">
+          <div className="flex grow flex-col items-start gap-3" id="contacts">
             <img src={LogoDimensi} alt="" className="mb-3 w-12" />
 
             {CompanyData.socials.map((item, i) => (
