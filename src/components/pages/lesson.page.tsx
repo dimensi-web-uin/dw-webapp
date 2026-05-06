@@ -62,7 +62,7 @@ const LessonPage = () => {
         .from('lesson_items')
         .select('id, cover_url, icon, title, description')
         .eq('lesson_id', id!)
-        .order('order')
+        .order('order', { ascending: true })
     ),
     deleteLessonItem = useDeleteMutation(
       supabase.from('lesson_items'),
@@ -137,15 +137,13 @@ const LessonPage = () => {
                     getOption(LogoIcon, item.icon as LogoIcon | undefined)?.meta
                       ?.logo
                   }
-                  className="size-10"
+                  className="size-8"
                 />
               </ItemMedia>
               <ItemContent>
                 <ItemTitle>{item.title}</ItemTitle>
-                <ItemDescription className="line-clamp-none">
-                  <TruncatedText maxLength={230} hideButton>
-                    {item.description ?? ''}
-                  </TruncatedText>
+                <ItemDescription className="line-clamp-3">
+                  {item.description ?? ''}
                 </ItemDescription>
               </ItemContent>
               <ItemActions>
