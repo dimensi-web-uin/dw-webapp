@@ -25,7 +25,7 @@ import { useEffect, useState } from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { Switch } from '@/components/atoms/switch';
 import { getOption } from '@/utils/option';
-import { GenerationOpts } from '@/data/options/generations.option';
+import { Generation } from '@/data/options/generations.option';
 
 const createSchema = y.object({
   name: y.string().max(50).required(),
@@ -83,7 +83,7 @@ const MemberCreateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
           <DrawerHeader>
             <DrawerTitle>
               Anggota Baru{' '}
-              {getOption(GenerationOpts, dialog?.meta.generation)?.label}
+              {getOption(Generation, dialog?.meta.generation)?.label}
             </DrawerTitle>
           </DrawerHeader>
 

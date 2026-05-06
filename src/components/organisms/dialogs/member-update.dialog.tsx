@@ -29,7 +29,7 @@ import { Switch } from '@/components/atoms/switch';
 import { Input } from '@/components/atoms/input';
 import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-group';
 import { getOption } from '@/utils/option';
-import { GenerationOpts } from '@/data/options/generations.option';
+import { Generation } from '@/data/options/generations.option';
 
 const updateSchema = y.object({
   name: y.string().max(50).optional(),
@@ -123,7 +123,10 @@ const MemberUpdateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
               <Input
                 disabled
                 value={
-                  getOption(GenerationOpts, detail.data?.generation)?.label
+                  getOption(
+                    Generation,
+                    detail.data?.generation as Generation | undefined
+                  )?.label
                 }
                 onChange={() => {}}
               />

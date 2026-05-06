@@ -4,11 +4,11 @@ export interface Option<V = string, M = Record<string, any>> {
   meta?: M;
 }
 
-export const getOption = <T extends Option>(
-  list: T[],
-  value?: string | null
-): T | null => {
-  return list.find((o) => o.value == (value ?? '')) ?? null;
+export const getOption = <T extends Record<string, any>>(
+  obj: T,
+  key?: keyof T | null
+) => {
+  return key ? obj[key] : undefined;
 };
 
 export const toOptions = (obj: Record<string, string>): Option[] => {
