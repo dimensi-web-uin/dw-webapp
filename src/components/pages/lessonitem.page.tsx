@@ -56,6 +56,7 @@ import {
   DropdownMenuTrigger,
 } from '../atoms/dropdown-menu';
 import { toast } from 'sonner';
+import LessonItemParticipantUpdateDialog from '../organisms/dialogs/lessonitemparticipant-update.dialog';
 
 const LessonItemPage = () => {
   const nav = useNavigate();
@@ -125,6 +126,7 @@ const LessonItemPage = () => {
       <LessonItemParticipantCreateDialog
         onSuccess={() => lessonItemParticipants.refetch()}
       />
+      <LessonItemParticipantUpdateDialog />
 
       <Section>
         <Breadcrumb>
@@ -292,7 +294,27 @@ const LessonItemPage = () => {
                 <ItemTitle>{item.members.name}</ItemTitle>
                 <ItemDescription>{item.members.role}</ItemDescription>
               </ItemContent>
-              <ItemActions>
+              <ItemActions className="gap-6">
+                <div>
+                  <small className="typo-caption text-muted-foreground">
+                    Aktif
+                  </small>
+                  <p className="typo-body-md">{item.activity_count ?? 0}</p>
+                </div>
+                <div>
+                  <small className="typo-caption text-muted-foreground">
+                    Kuis
+                  </small>
+                  <p className="typo-body-md">{item.quiz_points ?? 0}</p>
+                </div>
+                <div>
+                  <small className="typo-caption text-muted-foreground">
+                    Feedback
+                  </small>
+                  <p className="typo-body-md">
+                    {item.feedback ? 'Ya' : 'Tidak'}
+                  </p>
+                </div>
                 <Protected isStaff protect="null">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -300,7 +322,7 @@ const LessonItemPage = () => {
                         <MoreHorizontalIcon />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="min-w-40">
+                    <DropdownMenuContent>
                       <DropdownMenuGroup>
                         <DropdownMenuItem
                           onClick={() =>
