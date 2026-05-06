@@ -86,6 +86,55 @@ const LessonPage = () => {
     });
   };
 
+  const _moveTopLessonItem = async (id: string) => {
+    const items = lessonItems.data ?? [];
+    const idx = items.findIndex((i) => i.id === id);
+    if (idx <= 0) return;
+
+    const newItems = [...items];
+    const [moved] = newItems.splice(idx, 1);
+    newItems.splice(idx - 1, 0, moved);
+
+    const payload = newItems.map((item, i) => ({
+      ...item,
+      order: i + 1,
+    }));
+
+    await _reorder(payload);
+  };
+
+  const _moveBelowLessonItem = async (id: string) => {
+    const items = lessonItems.data ?? [];
+    const idx = items.findIndex((i) => i.id === id);
+    if (idx === -1 || idx >= items.length - 1) return;
+
+    const newItems = [...items];
+    const [moved] = newItems.splice(idx, 1);
+    newItems.splice(idx + 1, 0, moved);
+
+    const payload = newItems.map((item, i) => ({
+      ...item,
+      order: i + 1,
+    }));
+
+    await _reorder(payload);
+  };
+
+  const _reorder = async (items: NonNullable<typeof lessonItems.data>) => {
+    const loadingId = toast.loading('Memindahkan materi belajar');
+    try {
+      await supabase.rpc('reorder_lesson_items', {
+        p_items: items,
+      });
+      lessonItems.refetch();
+      toast.success('Materi belajar dipindahkan');
+    } catch {
+      toast.error('Gagal memindahkan materi belajar');
+    } finally {
+      toast.dismiss(loadingId);
+    }
+  };
+
   return (
     <>
       <LessonItemUpdateDialog />
@@ -161,10 +210,14 @@ const LessonPage = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent className="min-w-40">
                         <DropdownMenuGroup>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => _moveTopLessonItem(item.id)}
+                          >
                             <ArrowUpIcon /> Pindah ke atas
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => _moveBelowLessonItem(item.id)}
+                          >
                             <ArrowDownIcon /> Pindah ke bawah
                           </DropdownMenuItem>
                         </DropdownMenuGroup>

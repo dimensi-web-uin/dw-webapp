@@ -44,7 +44,6 @@ const LessonItemsNavigation = ({
       <div className="order-1 w-full sm:order-2 sm:w-auto">
         <h4 className="typo-heading-sm line-clamp-1 grow">
           {_items.at(_activeItemIdx)?.title ?? ''}
-          lorem20
         </h4>
       </div>
       <div className="order-3 flex flex-col gap-1">

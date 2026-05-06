@@ -249,6 +249,7 @@ export type Database = {
         };
       };
       is_staff: { Args: never; Returns: boolean };
+      reorder_lesson_items: { Args: { p_items: Json }; Returns: undefined };
       update_member_avatar: {
         Args: { p_avatar_url?: string };
         Returns: {
