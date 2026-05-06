@@ -15,7 +15,6 @@ import {
   Item,
   ItemActions,
   ItemContent,
-  ItemDescription,
   ItemMedia,
   ItemTitle,
 } from '../atoms/item';
@@ -60,7 +59,7 @@ const LessonPage = () => {
     lessonItems = useQuery(
       supabase
         .from('lesson_items')
-        .select('id, cover_url, icon, title, description')
+        .select('id, icon, title, order')
         .eq('lesson_id', id!)
         .order('order', { ascending: true })
     ),
@@ -137,14 +136,11 @@ const LessonPage = () => {
                     getOption(LogoIcon, item.icon as LogoIcon | undefined)?.meta
                       ?.logo
                   }
-                  className="size-8"
+                  className="size-6"
                 />
               </ItemMedia>
               <ItemContent>
                 <ItemTitle>{item.title}</ItemTitle>
-                <ItemDescription className="line-clamp-3">
-                  {item.description ?? ''}
-                </ItemDescription>
               </ItemContent>
               <ItemActions>
                 <ButtonGroup>

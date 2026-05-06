@@ -5,7 +5,7 @@ import Footer from '../molecules/footer';
 
 const MainLayout = () => {
   return (
-    <div className="flex min-h-svh flex-col items-stretch">
+    <div className="flex min-h-svh flex-col items-stretch overflow-x-hidden">
       <HeaderSticky>
         <Header />
       </HeaderSticky>

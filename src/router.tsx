@@ -9,6 +9,7 @@ import Protected from './components/molecules/protected';
 import MembersPage from './components/pages/members.page';
 import LessonsPage from './components/pages/lessons.page';
 import LessonPage from './components/pages/lesson.page';
+import LessonItemPage from './components/pages/lessonitem.page';
 
 const routes: RouteObject[] = [
   {
@@ -30,6 +31,14 @@ const routes: RouteObject[] = [
       {
         path: 'lessons/:id',
         element: <LessonPage />,
+      },
+      {
+        path: 'lessons/:lesson_id/items/:id',
+        element: (
+          <Protected>
+            <LessonItemPage />
+          </Protected>
+        ),
       },
       {
         path: 'profil',
