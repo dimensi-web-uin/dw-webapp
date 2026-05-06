@@ -57,6 +57,7 @@ const updateSchema = y.object({
     .optional(),
   meet_url: y.string().url().nullable().optional(),
   quiz_url: y.string().url().nullable().optional(),
+  streaming_url: y.string().url().nullable().optional(),
 });
 
 export type Update = y.InferType<typeof updateSchema>;
@@ -88,6 +89,7 @@ const LessonItemUpdateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
       icon: null,
       meet_url: null,
       quiz_url: null,
+      streaming_url: null,
     },
     validationSchema: updateSchema,
     onSubmit: async (val) => {
@@ -128,6 +130,7 @@ const LessonItemUpdateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
         icon: (detail.data.icon as LogoIcon | null) ?? null,
         meet_url: detail.data.meet_url,
         quiz_url: detail.data.quiz_url,
+        streaming_url: detail.data.streaming_url,
       });
     }
   }, [detail.data]);
@@ -168,7 +171,7 @@ const LessonItemUpdateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
             <DialogTitle>Materi Belajar Baru</DialogTitle>
           </DialogHeader>
           <div className="no-scrollbar max-h-[70vh] overflow-y-auto px-1.5 py-6">
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-6">
               {form.values.file_url && isURL(form.values.file_url) && (
                 <div className="bg-secondary aspect-video max-w-md overflow-hidden rounded-xl">
                   <iframe src={form.values.file_url} className="size-full" />
@@ -221,7 +224,7 @@ const LessonItemUpdateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
                 )}
               </Field>
 
-              <div className="mt-3 flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <Separator className="max-w-2/5 grow" />
                 <small className="typo-caption text-muted-foreground">
                   Pemateri
@@ -301,7 +304,7 @@ const LessonItemUpdateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
                 </>
               )}
 
-              <div className="mt-3 flex items-center justify-between">
+              <div className="flex items-center justify-between">
                 <Separator className="max-w-2/5 grow" />
                 <small className="typo-caption text-muted-foreground">
                   Opsional
@@ -367,6 +370,20 @@ const LessonItemUpdateDialog = ({ onSuccess }: { onSuccess?: () => void }) => {
                 />
                 {form.errors.quiz_url && (
                   <FieldError>{form.errors.quiz_url}</FieldError>
+                )}
+              </Field>
+
+              <Field>
+                <FieldLabel htmlFor="streaming_url">Link rekaman</FieldLabel>
+                <Input
+                  id="streaming_url"
+                  name="streaming_url"
+                  value={form.values.streaming_url ?? ''}
+                  onChange={form.handleChange}
+                  aria-invalid={!!form.errors.streaming_url}
+                />
+                {form.errors.streaming_url && (
+                  <FieldError>{form.errors.streaming_url}</FieldError>
                 )}
               </Field>
             </div>

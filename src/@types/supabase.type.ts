@@ -77,6 +77,7 @@ export type Database = {
           meet_url: string | null;
           order: number;
           quiz_url: string | null;
+          streaming_url: string | null;
           title: string;
           updated_at: string | null;
         };
@@ -94,6 +95,7 @@ export type Database = {
           meet_url?: string | null;
           order: number;
           quiz_url?: string | null;
+          streaming_url?: string | null;
           title: string;
           updated_at?: string | null;
         };
@@ -111,6 +113,7 @@ export type Database = {
           meet_url?: string | null;
           order?: number;
           quiz_url?: string | null;
+          streaming_url?: string | null;
           title?: string;
           updated_at?: string | null;
         };

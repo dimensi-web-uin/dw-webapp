@@ -213,7 +213,8 @@ const LessonItemPage = () => {
                 <ItemTitle>
                   {lessonItem.data?.author_role ??
                     lessonItem.data?.members?.role ??
-                    '-'}
+                    '-'}{' '}
+                  {lessonItem.data?.author_id ? 'Dimensi Web' : ''}
                 </ItemTitle>
               </ItemContent>
             </Item>
@@ -226,7 +227,9 @@ const LessonItemPage = () => {
               <ItemContent>
                 <ItemDescription>Online meet</ItemDescription>
                 <ItemTitle className="break-all">
-                  {lessonItem.data?.meet_url ?? '-'}
+                  <a href={lessonItem.data?.meet_url ?? '#'} target="_blank">
+                    {lessonItem.data?.meet_url || '-'}
+                  </a>
                 </ItemTitle>
               </ItemContent>
             </Item>
@@ -234,14 +237,23 @@ const LessonItemPage = () => {
               <ItemContent>
                 <ItemDescription>Kuis</ItemDescription>
                 <ItemTitle className="break-all">
-                  {lessonItem.data?.quiz_url ?? '-'}
+                  <a href={lessonItem.data?.quiz_url ?? '#'} target="_blank">
+                    {lessonItem.data?.quiz_url || '-'}
+                  </a>
                 </ItemTitle>
               </ItemContent>
             </Item>
             <Item variant={'card'}>
               <ItemContent>
-                <ItemDescription>Live streaming</ItemDescription>
-                <ItemTitle className="break-all">-</ItemTitle>
+                <ItemDescription>Rekaman</ItemDescription>
+                <ItemTitle className="break-all">
+                  <a
+                    href={lessonItem.data?.streaming_url ?? '#'}
+                    target="_blank"
+                  >
+                    {lessonItem.data?.streaming_url || '-'}
+                  </a>
+                </ItemTitle>
               </ItemContent>
             </Item>
 
